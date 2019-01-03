@@ -19,3 +19,6 @@ There is no current NuGet available so you have to get it from there and you're 
 1. Invite others to join your session (Almost simultaneously listening)
 
 Maybe more features in the feature, but this will be the main features.
+
+## How it looks like
+![YouTube Rich Presence](https://puu.sh/Cr7r1/af00266879.png)
