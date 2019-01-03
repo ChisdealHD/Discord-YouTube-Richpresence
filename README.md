@@ -1,6 +1,7 @@
 # Discord YouTube Richpresence
 A Discord Richpresence for YouTube, so that people can see what you are listening to!
 
+Note this is Windows only.
 ## Features 
 1. Shows what you listen to
 1. Timestamp (Where you currently are)
