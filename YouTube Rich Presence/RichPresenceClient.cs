@@ -13,6 +13,7 @@ namespace YouTube_Rich_Presence
         private DiscordRpcClient client;
         string clientID = "530364837688246273";
         private YoutubeHandler youtubeHandler;
+        private string updateCache = "";
 
         public RichPresenceClient()
         {
@@ -27,24 +28,20 @@ namespace YouTube_Rich_Presence
 
             client.OnPresenceUpdate += (sender, e) =>
             {
-                Console.WriteLine("Received Update! {0}", e.Presence);
+                var update = e.Presence.Details + " " + e.Presence.State;
+                //Remember update to not spam update messages unnecessarily.
+                if (updateCache == update) return;
+
+                Console.WriteLine("Received Update! {0} {1}", e.Presence.Details, e.Presence.State);
+                updateCache = update;
             };
 
             client.Initialize();
 
-            client.SetPresence(new RichPresence()
-            {
-                Details = "Currently playing nothing.",
-                State = "On a break!",
-                Assets = new Assets()
-                {
-                    LargeImageKey = "youtube-512"
-                }
-            });
-
             youtubeHandler = new YoutubeHandler(client);
 
-            Console.ReadKey();
+            Console.WriteLine("Press Enter to close Program");
+            Console.ReadLine();
             //Program ends here, so dispose
             youtubeHandler.Dispose();
             client.Dispose();

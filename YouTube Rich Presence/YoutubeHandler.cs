@@ -30,8 +30,21 @@ namespace YouTube_Rich_Presence
             secondUpd(client);
         }
 
+        private IEnumerable<string> ChromeWindowTitles()
+        {
+            foreach (var title in BrowserWindowFinder.WindowTitlesForClass("Chrome_WidgetWin_0"))
+                if (!string.IsNullOrWhiteSpace(title))
+                    yield return title;
+
+            foreach (var title in BrowserWindowFinder.WindowTitlesForClass("Chrome_WidgetWin_1"))
+                if (!string.IsNullOrWhiteSpace(title))
+                    yield return title;
+        }
+
         private void secondUpd(DiscordRpcClient client)
         {
+            ChromeWindowTitles().Print();
+
             Process[] processes = Process.GetProcessesByName("chrome");
             if (processes.Length == 0)
             {
@@ -46,9 +59,14 @@ namespace YouTube_Rich_Presence
                     continue; //Goto next element
                 }
                 AutomationElement root = AutomationElement.FromHandle(process.MainWindowHandle);
-                Condition condition = new PropertyCondition(AutomationElement.ControlTypeProperty, ControlType.Window);
-                var tabs = root.FindAll(TreeScope.Descendants, condition);
-                Console.WriteLine(tabs.Count);
+                AutomationElement editBar = root.FindFirst(TreeScope.Descendants, new PropertyCondition(AutomationElement.ControlTypeProperty, ControlType.Edit));
+                TreeWalker treewalker = TreeWalker.ControlViewWalker;
+                AutomationElement elmTabStrip = treewalker.GetParent(editBar);
+                Condition condTabItem = new PropertyCondition(AutomationElement.ControlTypeProperty, ControlType.TabItem);
+                foreach (AutomationElement tabitem in elmTabStrip.FindAll(TreeScope.Children, condTabItem))
+                {
+                    Console.WriteLine(tabitem.Current.Name);
+                }
             }
         }
         private void Update(DiscordRpcClient client)
