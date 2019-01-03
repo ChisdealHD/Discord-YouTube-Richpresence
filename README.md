@@ -2,6 +2,12 @@
 A Discord Richpresence for YouTube, so that people can see what you are listening to!
 
 Note this is Windows only.
+
+## Set-up
+I use [this library](https://github.com/Lachee/discord-rpc-csharp) its DiscordRPC.dll as Library to work on the Project.
+
+There is no current NuGet available so you have to get it from there and you're good to go.
+
 ## Features 
 1. Shows what you listen to
 1. Timestamp (Where you currently are)
